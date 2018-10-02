@@ -166,7 +166,6 @@ static const Score BishopPawns        = S(  3,  7);
 static const Score CloseEnemies       = S(  6,  0);
 static const Score CorneredBishop     = S( 50, 50);
 static const Score Hanging            = S( 57, 32);
-static const Score HinderPassedPawn   = S(  8,  0);
 static const Score KingProtector      = S(  6,  6);
 static const Score KnightOnQueen      = S( 21, 11);
 static const Score LongDiagonalBishop = S( 46,  0);
@@ -606,9 +605,6 @@ INLINE Score evaluate_passed_pawns(const Pos *pos, EvalInfo *ei, const int Us)
 
     assert(!(pieces_cp(Them, PAWN) & forward_file_bb(Us, s + Up)));
 
-    if (forward_file_bb(Us, s) & pieces_c(Them))
-      score -= HinderPassedPawn;
-
     int r = relative_rank_s(Us, s);
     int w = PassedDanger[r];
 
@@ -654,8 +650,6 @@ INLINE Score evaluate_passed_pawns(const Pos *pos, EvalInfo *ei, const int Us)
 
         mbonus += k * w, ebonus += k * w;
       }
-      else if (pieces_c(Us) & sq_bb(blockSq))
-        mbonus += w + r * 2, ebonus += w + r * 2;
     } // w != 0
 
     // Scale down bonus for candidate passers which need more than one

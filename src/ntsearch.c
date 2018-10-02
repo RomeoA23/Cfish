@@ -85,8 +85,7 @@ Value search_NonPV(Pos *pos, Stack *ss, Value alpha, Depth depth, int cutNode)
     // Step 2. Check for aborted search and immediate draw
     if (load_rlx(Signals.stop) || is_draw(pos) || ss->ply >= MAX_PLY)
       return  ss->ply >= MAX_PLY && !inCheck
-            ? evaluate(pos) - 10 * ((ss-1)->statScore > 0)
-            : VALUE_DRAW;
+            ? evaluate(pos) : VALUE_DRAW;
 
     // Step 3. Mate distance pruning. Even if we mate at the next move our
     // score would be at best mate_in(ss->ply+1), but if alpha is already
