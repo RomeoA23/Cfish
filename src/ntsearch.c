@@ -452,7 +452,6 @@ moves_loop: // When in check search starts from here.
       ss->mpKillers[0] = k1; ss->mpKillers[1] = k2;
     }
     else if (    givesCheck
-             && !moveCountPruning
              &&  see_test(pos, move, 0))
       extension = ONE_PLY;
 
