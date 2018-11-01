@@ -174,13 +174,13 @@ static const Score Overload           = S( 13,  6);
 static const Score PawnlessFlank      = S( 19, 84);
 static const Score RookOnPawn         = S( 10, 30);
 static const Score SliderOnQueen      = S( 42, 21);
-static const Score ThreatByKing       = S( 23, 76);
+static const Score ThreatByKing       = S( 22, 78);
 static const Score ThreatByPawnPush   = S( 45, 40);
 static const Score ThreatByRank       = S( 16,  3);
 static const Score ThreatBySafePawn   = S(173,102);
 static const Score TrappedRook        = S( 92,  0);
 static const Score WeakQueen          = S( 50, 10);
-static const Score WeakUnopposedPawn  = S(  5, 29);
+static const Score WeakUnopposedPawn  = S( 15, 19);
 
 #undef S
 #undef V
