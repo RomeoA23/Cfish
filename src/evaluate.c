@@ -137,11 +137,11 @@ static const Score RookOnFile[2] = { S(20, 7), S(45, 20) };
 // which piece type attacks which one. Attacks on lesser pieces which are
 // pawn defended are not considered.
 static const Score ThreatByMinor[8] = {
-  S(0, 0), S(0, 31), S(39, 42), S(57, 44), S(68,112), S(47,120)
+  S(0, 0), S(0, 31), S(39, 42), S(57, 44), S(68,112), S(62,120)
 };
 
 static const Score ThreatByRook[8] = {
-  S(0, 0), S(0, 24), S(38, 71), S(38, 61), S( 0, 38), S(36, 38)
+  S(0, 0), S(0, 24), S(38, 71), S(38, 61), S( 0, 38), S(51, 38)
 };
 
 // PassedRank[mg/eg][Rank] contains midgame and endgame bonuses for passed

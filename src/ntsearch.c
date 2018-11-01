@@ -264,7 +264,7 @@ Value search_NonPV(Pos *pos, Stack *ss, Value alpha, Depth depth, int cutNode)
       && (ss-1)->currentMove != MOVE_NULL
       && (ss-1)->statScore < 23200
       && eval >= beta
-      && ss->staticEval >= beta - 36 * depth / ONE_PLY + 225
+      && pureStaticEval >= beta - 36 * depth / ONE_PLY + 225
       && !excludedMove
       && pos_non_pawn_material(pos_stm())
       && (ss->ply >= pos->nmpPly || ss->ply % 2 != pos->nmpOdd))
