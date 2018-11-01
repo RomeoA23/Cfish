@@ -468,8 +468,10 @@ void thread_search(Pos *pos)
       // Start with a small aspiration window and, in the case of a fail
       // high/low, re-search with a bigger window until we're not failing
       // high/low anymore.
+      int failedHighCnt = 0;
       while (1) {
-        bestValue = search_PV(pos, ss, alpha, beta, pos->rootDepth);
+        Depth adjustedDepth = max(ONE_PLY, pos->rootDepth - failedHighCnt * ONE_PLY);
+        bestValue = search_PV(pos, ss, alpha, beta, adjustedDepth);
 
         // Bring the best move to the front. It is critical that sorting
         // is done with a stable algorithm because all the values but the
@@ -500,11 +502,14 @@ void thread_search(Pos *pos)
           alpha = max(bestValue - delta, -VALUE_INFINITE);
 
           if (pos->threadIdx == 0) {
+            failedHighCnt = 0;
             failedLow = true;
             Signals.stopOnPonderhit = 0;
           }
         } else if (bestValue >= beta) {
           beta = min(bestValue + delta, VALUE_INFINITE);
+		  if (pos->threadIdx == 0)
+                	  ++failedHighCnt;
         } else
           break;
 
