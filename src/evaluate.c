@@ -444,7 +444,7 @@ INLINE Score evaluate_king(const Pos *pos, EvalInfo *ei, Score *mobility,
     kingDanger +=  ei->kingAttackersCount[Them] * ei->kingAttackersWeight[Them]
                  +  69 * ei->kingAttacksCount[Them]
                  + 185 * popcount(ei->kingRing[Us] & weak)
-                 + 129 * popcount(blockers_for_king(pos, Us) | unsafeChecks)
+                 + 150 * popcount(blockers_for_king(pos, Us) | unsafeChecks)
                  +   4 * tropism
                  - 873 * !pieces_cp(Them, QUEEN)
                  -   6 * mg_value(score) / 8
@@ -519,8 +519,6 @@ INLINE Score evaluate_threats(const Pos *pos, EvalInfo *ei, const int Us)
       if (piece_on(s) != make_piece(Them, PAWN))
         score += ThreatByRank * relative_rank_s(Them, s);
 
-      else if (blockers_for_king(pos, Them) & sq_bb(s))
-        score += score_divide(ThreatByRank * relative_rank_s(Them, s), 2);
     }
 
     b = weak & ei->attackedBy[Us][ROOK];
@@ -530,8 +528,6 @@ INLINE Score evaluate_threats(const Pos *pos, EvalInfo *ei, const int Us)
       if (piece_on(s) != make_piece(Them, PAWN))
         score += ThreatByRank * relative_rank_s(Them, s);
 
-      else if (blockers_for_king(pos, Them) & sq_bb(s))
-        score += score_divide(ThreatByRank * relative_rank_s(Them, s), 2);
     }
 
     // Bonus for king attacks on pawns or pieces which are not pawn-defended
