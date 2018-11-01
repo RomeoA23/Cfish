@@ -368,7 +368,7 @@ moves_loop: // When in check search starts from here.
   value = bestValue; // Workaround a bogus 'uninitialized' warning under gcc
 
   skipQuiets = 0;
-  ttCapture = 0;
+  ttCapture = ttMove && is_capture_or_promotion(pos, (ttMove));
   pvExact = PvNode && ttHit && tte_bound(tte) == BOUND_EXACT;
 
   // Step 12. Loop through moves
@@ -511,9 +511,6 @@ moves_loop: // When in check search starts from here.
       ss->moveCount = --moveCount;
       continue;
     }
-
-    if (move == ttMove && captureOrPromotion)
-      ttCapture = 1;
 
     // Update the current move (this must be done after singular extension
     // search)
