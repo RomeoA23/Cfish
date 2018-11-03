@@ -131,7 +131,7 @@ static const Score Outpost[][2] = {
 
 // RookOnFile[semiopen/open] contains bonuses for each rook when there is
 // no friendly pawn on the rook file.
-static const Score RookOnFile[2] = { S(20, 7), S(45, 20) };
+static const Score RookOnFile[2] = { S(18, 7), S(44, 20) };
 
 // ThreatByMinor/ByRook[attacked PieceType] contains bonuses according to
 // which piece type attacks which one. Attacks on lesser pieces which are
@@ -172,13 +172,13 @@ static const Score LongDiagonalBishop = S( 46,  0);
 static const Score MinorBehindPawn    = S( 16,  0);
 static const Score Overload           = S( 13,  6);
 static const Score PawnlessFlank      = S( 19, 84);
-static const Score RookOnPawn         = S( 10, 30);
+static const Score RookOnPawn         = S( 10, 29);
 static const Score SliderOnQueen      = S( 42, 21);
 static const Score ThreatByKing       = S( 22, 78);
 static const Score ThreatByPawnPush   = S( 45, 40);
 static const Score ThreatByRank       = S( 16,  3);
 static const Score ThreatBySafePawn   = S(173,102);
-static const Score TrappedRook        = S( 92,  0);
+static const Score TrappedRook        = S( 96,  5);
 static const Score WeakQueen          = S( 50, 10);
 static const Score WeakUnopposedPawn  = S( 15, 19);
 
