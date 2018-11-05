@@ -448,15 +448,13 @@ INLINE Score evaluate_king(const Pos *pos, EvalInfo *ei, Score *mobility,
                  +   4 * tropism
                  - 873 * !pieces_cp(Them, QUEEN)
                  -   6 * mg_value(score) / 8
+                 +       mg_value(mobility[Them] - mobility[Us])
                  -   30;
 
     // Transform the kingDanger units into a Score, and subtract it from
     // the evaluation.
-    if (kingDanger > 0) {
-      int mobilityDanger = mg_value(mobility[Them] - mobility[Us]);
-      kingDanger = max(0, kingDanger + mobilityDanger);
+    if (kingDanger > 0)
       score -= make_score(kingDanger * kingDanger / 4096, kingDanger / 16);
-    }
   }
 
   // Penalty when our king is on a pawnless flank.
