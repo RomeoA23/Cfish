@@ -455,6 +455,13 @@ moves_loop: // When in check search starts from here.
              &&  see_test(pos, move, 0))
       extension = ONE_PLY;
 
+    // Extension for king moves that change castling rights
+    int us = pos_stm();
+    if (   type_of_p(moved_piece(move)) == KING
+        && can_castle_c(us)
+        && depth < 12 * ONE_PLY)
+        extension = ONE_PLY;
+
     // Calculate new depth for this move
     newDepth = depth - ONE_PLY + extension;
 
