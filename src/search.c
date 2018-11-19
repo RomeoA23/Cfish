@@ -81,6 +81,13 @@ static Value stat_bonus(Depth depth)
   return d > 17 ? 0 : 29 * d * d + 138 * d - 134;
 }
 
+// Add a small random component to draw evaluations to keep search dynamic
+// and to avoid three-fold blindness. (Yucks, ugly hack)
+static Value value_draw(Depth depth, Pos *pos)
+{
+  return depth < 4 ? VALUE_DRAW : VALUE_DRAW + 2 * (pos->nodes % 2) - 1;
+}
+
 // Skill structure is used to implement strength limit
 struct Skill {
 /*
@@ -455,7 +462,7 @@ void thread_search(Pos *pos)
       // Reset aspiration window starting size
       if (pos->rootDepth >= 5 * ONE_PLY) {
         Value previousScore = rm->move[pvIdx].previousScore;
-        delta = (Value)18;
+        delta = 20;
         alpha = max(previousScore - delta, -VALUE_INFINITE);
         beta  = min(previousScore + delta,  VALUE_INFINITE);
 
@@ -468,8 +475,10 @@ void thread_search(Pos *pos)
       // Start with a small aspiration window and, in the case of a fail
       // high/low, re-search with a bigger window until we're not failing
       // high/low anymore.
-      while (1) {
-        bestValue = search_PV(pos, ss, alpha, beta, pos->rootDepth);
+      int failedHighCnt = 0;
+      while (true) {
+        Depth adjustedDepth = max(ONE_PLY, pos->rootDepth - failedHighCnt * ONE_PLY);
+        bestValue = search_PV(pos, ss, alpha, beta, adjustedDepth);
 
         // Bring the best move to the front. It is critical that sorting
         // is done with a stable algorithm because all the values but the
@@ -500,11 +509,14 @@ void thread_search(Pos *pos)
           alpha = max(bestValue - delta, -VALUE_INFINITE);
 
           if (pos->threadIdx == 0) {
+            failedHighCnt = 0;
             failedLow = true;
             Signals.stopOnPonderhit = 0;
           }
         } else if (bestValue >= beta) {
           beta = min(bestValue + delta, VALUE_INFINITE);
+          if (pos->threadIdx == 0)
+            failedHighCnt++;
         } else
           break;
 
