@@ -446,7 +446,7 @@ INLINE Score evaluate_king(const Pos *pos, EvalInfo *ei, Score *mobility,
                  +  69 * ei->kingAttacksCount[Them]
                  + 185 * popcount(ei->kingRing[Us] & weak)
                  + 150 * popcount(blockers_for_king(pos, Us) | unsafeChecks)
-                 +   4 * tropism
+                 +       tropism * tropism / 4
                  - 873 * !pieces_cp(Them, QUEEN)
                  -   6 * mg_value(score) / 8
                  +       mg_value(mobility[Them] - mobility[Us])
